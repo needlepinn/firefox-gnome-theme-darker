@@ -42,6 +42,8 @@
     rgba(255, 255, 255, 0.015),
     rgba(0, 0, 0, 0.18)) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+  /* Match the bottom gap (padding-block-end) so tabs don't stick to the top */
+  padding-block-start: var(--gnome-toolbar-padding, 6px) !important;
 }
 
 /* 4. Tabs: inactive flat, hover lifts, active elevated */
