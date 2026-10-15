@@ -1,0 +1,117 @@
+/* Subtle depth layer on top of firefox-gnome-theme - keeps Adwaita look, adds elevation */
+@namespace xul "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+
+:root {
+  --depth-top-highlight: rgba(255, 255, 255, 0.05);
+  --depth-bottom-shadow: rgba(0, 0, 0, 0.45);
+}
+
+/* Darken base surfaces a bit (dark mode only) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gnome-headerbar-background: #232327 !important;
+    --gnome-window-background: #1b1b1e !important;
+    --gnome-view-background: #161618 !important;
+    --gnome-sidebar-background: #232327 !important;
+    --gnome-secondary-sidebar-background: #1e1e21 !important;
+    --gnome-menu-background: #2b2b2f !important;
+    --gnome-tabbar-tab-hover-background: rgba(255, 255, 255, 0.06) !important;
+    --gnome-tabbar-tab-active-background: rgba(255, 255, 255, 0.09) !important;
+  }
+}
+
+/* 1. Separate toolbar from content with soft drop shadow */
+#navigator-toolbox {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4),
+              0 10px 18px -12px rgba(0, 0, 0, 0.55) !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* 2. Headerbar: light from top + faint vertical gradient */
+#nav-bar {
+  box-shadow: inset 0 1px 0 var(--depth-top-highlight) !important;
+  background-image: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.02),
+    rgba(0, 0, 0, 0.12) 100%) !important;
+}
+
+/* 3. Tab bar: slightly darker at bottom for recessed feel */
+#TabsToolbar {
+  background-image: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.015),
+    rgba(0, 0, 0, 0.18)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+
+/* 4. Tabs: inactive flat, hover lifts, active elevated */
+.tabbrowser-tab .tab-background {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  transition: box-shadow 150ms ease-out, background-color 150ms ease-out !important;
+}
+
+.tabbrowser-tab:not([selected]):hover .tab-background {
+  background-image: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.005)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06),
+              0 3px 8px -4px rgba(0, 0, 0, 0.6) !important;
+}
+
+.tabbrowser-tab[selected] .tab-background {
+  background-image: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.015)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+              0 5px 12px -6px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* 5. URL bar: recessed field with inner shadow, glow on focus */
+#urlbar-background {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45),
+              inset 0 0 0 1px rgba(0, 0, 0, 0.3) !important;
+  background-image: linear-gradient(to bottom,
+    rgba(0, 0, 0, 0.22),
+    rgba(255, 255, 255, 0.015)) !important;
+}
+
+#urlbar[focused] #urlbar-background,
+#urlbar[open] #urlbar-background {
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25),
+              0 0 0 2px color-mix(in srgb, var(--gnome-accent, #78aeed) 55%, transparent),
+              0 4px 14px -4px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* 6. Toolbar buttons: subtle lift on hover/press */
+#nav-bar .toolbarbutton-1:not([disabled]):hover {
+  background-image: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.09),
+    rgba(255, 255, 255, 0.02)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+              0 2px 6px -3px rgba(0, 0, 0, 0.5) !important;
+}
+
+#nav-bar .toolbarbutton-1:not([disabled]):active,
+#nav-bar .toolbarbutton-1[open] {
+  background-image: linear-gradient(to bottom,
+    rgba(0, 0, 0, 0.14),
+    rgba(255, 255, 255, 0.02)) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* 7. Light mode: flip shadows to be softer */
+@media (prefers-color-scheme: light) {
+  :root {
+    --depth-top-highlight: rgba(255, 255, 255, 0.7);
+    --depth-bottom-shadow: rgba(0, 0, 0, 0.12);
+  }
+  #navigator-toolbox {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12),
+                0 10px 18px -12px rgba(0, 0, 0, 0.22) !important;
+  }
+  .tabbrowser-tab[selected] .tab-background {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                0 5px 12px -8px rgba(0, 0, 0, 0.3) !important;
+  }
+}
